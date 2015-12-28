@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lzg.dao.IUserDao">
+	
+    <resultMap type="com.lzg.entity.User" id="userMap">
+        <result column="id" property="id"/>
+        <result column="username" property="userName"/>
+        <result column="password" property="passWord"/>
+    </resultMap>
+    
+    <sql id="user_column">
+        id,username,password
+    </sql>
+    
+    <select id="findAll" resultType="com.lzg.entity.User">
+        SELECT <include refid="user_column"/> FROM sys_user
+    </select>
+    
+    <insert id="save">
+        INSERT INTO sys_user (username,password) VALUES (#{userName},#{passWord})
+    </insert>
+    
+    <update id="update">
+        UPDATE sys_user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userName != null"> username = #{userName},</if>
+            <if test="passWord != null"> password = #{passWord},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+    
+    <delete id="delete">
+        DELETE FROM sys_user WHERE id=#{id}
+    </delete>
+    
+    <select id="findUserById" resultType="com.lzg.entity.User">
+        SELECT <include refid="user_column"/> FROM sys_user
+		WHERE id=#{userId}
+    </select>
+</mapper>
