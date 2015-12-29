@@ -15,7 +15,7 @@ public class Test1 extends BaseTest {
 
 	// 测试对user类的 CRUD
 	@Test
-	public void test1() {
+	public void testCRUD() {
 		User user = new User();
 		user.setUserName("保存");
 		user.setPassWord("123");
@@ -29,10 +29,11 @@ public class Test1 extends BaseTest {
 		User u2 = userService.findUserById(u1.getId());
 		System.out.println("查询更新后的数据：" + u2.toString());
 
-		List<User> l1 = userService.findAll();
-		System.out.println("删除数据前查询：" + l1.size());
-		userService.deleteUser(u2);
-		List<User> list = userService.findAll();
-		System.out.println("删除数据后查询：" + list.size());
+//		List<User> l1 = userService.findAll();
+//		System.out.println("删除数据前查询：" + l1.size());
+//		userService.deleteUser(u2);
+//		List<User> list = userService.findAll();
+//		System.out.println("删除数据后查询：" + list.size());
 	}
+	
 }

@@ -46,4 +46,11 @@ public class UserService implements IUserService {
 		userDao.update(user);
 		return true;
 	}
+	
+	@Transactional(rollbackFor = { Exception.class })
+	public boolean batchSaveUser(List<User> users){
+		
+		
+		return true;
+	}
 }

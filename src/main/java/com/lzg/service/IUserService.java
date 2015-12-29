@@ -14,4 +14,6 @@ public interface IUserService {
 	public boolean deleteUser(User user);
 
 	public boolean updateUser(User user);
+	
+	public boolean batchSaveUser(List<User> users);
 }

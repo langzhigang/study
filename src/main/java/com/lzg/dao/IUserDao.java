@@ -14,4 +14,5 @@ public interface IUserDao {
 	public void delete(User user);
 
 	public User findUserById(long userId);
+	
 }
