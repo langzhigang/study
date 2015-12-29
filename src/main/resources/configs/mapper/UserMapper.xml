@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lzg.dao.IUserDao">
-	
-    <resultMap type="com.lzg.entity.User" id="userMap">
-        <result column="id" property="id"/>
-        <result column="username" property="userName"/>
-        <result column="password" property="passWord"/>
-    </resultMap>
     
     <sql id="user_column">
-        id,username,password
+        userid,username,password
     </sql>
     
     <select id="findAll" resultType="com.lzg.entity.User">
         SELECT <include refid="user_column"/> FROM sys_user
     </select>
     
-    <insert id="save">
+    <insert id="save"  useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO sys_user (username,password) VALUES (#{userName},#{passWord})
     </insert>
     
@@ -26,15 +20,33 @@
             <if test="userName != null"> username = #{userName},</if>
             <if test="passWord != null"> password = #{passWord},</if>
         </trim>
-        WHERE id=#{id}
+        WHERE userid=#{userId}
     </update>
     
     <delete id="delete">
-        DELETE FROM sys_user WHERE id=#{id}
+        DELETE FROM sys_user WHERE userid=#{userId}
     </delete>
     
     <select id="findUserById" resultType="com.lzg.entity.User">
         SELECT <include refid="user_column"/> FROM sys_user
-		WHERE id=#{userId}
+		WHERE userid=#{userId}
     </select>
+    
+    <insert id="batchSaveUser">
+    	INSERT INTO sys_user (username,password)
+    	VALUES
+    	<trim suffix="" suffixOverrides=",">
+    		<foreach collection="users" separator="," item="item">
+				(#{item.userName},#{item.passWord})    	
+    		</foreach>
+    	</trim>
+    </insert>
+    
+    <insert id="saveUUIDUser">
+    	<selectKey keyProperty="userId" resultType="String" order="BEFORE">
+    		SELECT UUID()
+    	</selectKey>
+    	INSERT INTO sys_user_uuid (userid,username) VALUES (#{userId},#{userName})
+    </insert>
+    
 </mapper>

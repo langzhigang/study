@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lzg.dao.IUserDao;
+import com.lzg.entity.UUIDUser;
 import com.lzg.entity.User;
 import com.lzg.service.IUserService;
 
@@ -49,8 +50,20 @@ public class UserService implements IUserService {
 	
 	@Transactional(rollbackFor = { Exception.class })
 	public boolean batchSaveUser(List<User> users){
-		
-		
+		userDao.batchSaveUser(users);
 		return true;
 	}
+
+	public boolean batchSaveUser1(List<User> users) {
+		for(int i=0, len=users.size(); i<len; i++){
+			userDao.save(users.get(i));
+		}
+		return false;
+	}
+
+	public boolean saveUUIDUser(UUIDUser user) {
+		userDao.saveUUIDUser(user);
+		return false;
+	}
+
 }
