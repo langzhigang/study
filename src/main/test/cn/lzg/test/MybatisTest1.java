@@ -1,8 +1,6 @@
 package cn.lzg.test;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
@@ -12,7 +10,12 @@ import com.lzg.entity.UUIDUser;
 import com.lzg.entity.User;
 import com.lzg.service.IUserService;
 
-public class Test1 extends BaseTest {
+/**
+ * 
+ * @author lzg
+ *  mybatis的基本测试
+ */
+public class MybatisTest1 extends BaseTest {
 
 	@Autowired
 	private IUserService userService;

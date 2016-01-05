@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lzg.dao.IAuthorDao">
+    <!-- 集合嵌套选择（Nested Select for Collection） -->
+    <resultMap type="com.lzg.entity.Author" id="findAllMap">
+    	<id column="authorid" property="authorId"/>
+    	<result column="authorname" property="authorName"/>
+    	<!-- <association property="blogs" column="authorId" select="findBlogByAuthorId"/> -->
+    	<collection property="blogs" column="authorId" select="findBlogByAuthorId"/>
+    </resultMap>
+    
+    <select id="findAll" resultMap="findAllMap">
+    	SELECT authorid,authorname FROM author
+    </select>
+    
+    <select id="findBlogByAuthorId" resultType="com.lzg.entity.Blog">
+    	SELECT * FROM blog WHERE authorid = #{authorId}
+    </select>
+    
+    <!-- 集合的嵌套结果集（Nested Results for Collection）     -->
+	<resultMap type="com.lzg.entity.Author" id="findAllByJoinMap">
+		<id column="authorid" property="authorId"/>
+    	<result column="authorname" property="authorName"/>
+    	<!-- <association property="blogs" column="authorId" resultMap="blogMap"/> -->
+		<collection property="blogs" column="authorId" resultMap="blogMap" />
+	</resultMap>    
+    
+    <resultMap type="com.lzg.entity.Blog" id="blogMap">
+    	<id column="blogid" property="blogId"/>
+    	<result column="blogname" property="blogName"/>
+    	<result column="content" property="content"/>
+    	<result column="url" property="url"/>
+    	<result column="authorid" property="authorId"/>
+    </resultMap>
+    
+    <select id="findAllByJoin" resultMap="findAllByJoinMap">
+    	SELECT au.authorid,au.authorname,
+			bl.blogid,bl.blogname,bl.content,bl.url,bl.authorid FROM author au 
+		LEFT JOIN blog bl ON au.authorid=bl.authorid
+    </select>
+    
+</mapper>
