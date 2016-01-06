@@ -1,6 +1,12 @@
 package com.lzg.entity;
 
-public class Blog {
+import java.io.Serializable;
+
+public class Blog implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7928358550902027152L;
 	private long blogId;
 	private String blogName;
 	private String content;

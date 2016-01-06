@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!-- 项目 右键 》run as 》 maven bulid 》弹出对话框  在goals中输入mybatis-generator:generate 》 点击 Run -->  
+<generatorConfiguration>
+	<!-- 数据库驱动,用maven 插件不需要外部的引入-->
+	<!-- <classPathEntry	location="E:\project\vmanagerStore\src\main\resources\tools\mysql-connector-java-5.1.29.jar"/> -->
+	<context id="DB2Tables"	targetRuntime="MyBatis3">
+		<commentGenerator>
+			<property name="suppressDate" value="true"/>
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+			<property name="suppressAllComments" value="true"/>
+		</commentGenerator>
+		<!--数据库链接URL，用户名、密码 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver" 
+						connectionURL="jdbc:mysql://120.25.162.108:3306/lzgstudy" 
+						userId="root" 
+						password="">
+		</jdbcConnection>
+		
+	   <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer  
+	   	    true，把JDBC DECIMAL 和 NUMERIC 类型解析为java.math.BigDecimal -->  
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="true"/>
+		</javaTypeResolver>
+		
+		<!-- 生成实体的包名和位置-->
+		<javaModelGenerator targetPackage="com.lzg.entity" targetProject="./src/main/java">
+			<property name="enableSubPackages" value="true"/>
+			<property name="trimStrings" value="true"/>
+		</javaModelGenerator>
+		
+		<!-- 生成Mapper文件的包名和位置-->
+		<sqlMapGenerator targetPackage="configs.mapper" targetProject="./src/main/resources">
+			<property name="enableSubPackages" value="true"/>
+		</sqlMapGenerator>
+		
+		<!-- 生成DAO的包名和位置-->
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.lzg.dao" targetProject="./src/main/java">
+			<property name="enableSubPackages" value="true"/>
+		</javaClientGenerator>
+		
+		<!-- 需要生成的表，tableName数据库表名，domainObjectName对应的实体的类名，要生成多张表就复制多行-->
+		<table tableName="testUser" domainObjectName="TestUser" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+	</context>
+</generatorConfiguration>

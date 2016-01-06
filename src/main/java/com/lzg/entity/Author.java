@@ -1,8 +1,13 @@
 package com.lzg.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Author {
+public class Author implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 653598475955166755L;
 	private long authorId;
 	private String authorName;
 	private List<Blog> blogs;
