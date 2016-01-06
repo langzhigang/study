@@ -54,6 +54,7 @@ public class UserService implements IUserService {
 		return true;
 	}
 
+	@Transactional(rollbackFor = { Exception.class })
 	public boolean batchSaveUser1(List<User> users) {
 		for(int i=0, len=users.size(); i<len; i++){
 			userDao.save(users.get(i));
@@ -61,6 +62,7 @@ public class UserService implements IUserService {
 		return false;
 	}
 
+	@Transactional(rollbackFor = { Exception.class })
 	public boolean saveUUIDUser(UUIDUser user) {
 		userDao.saveUUIDUser(user);
 		return false;

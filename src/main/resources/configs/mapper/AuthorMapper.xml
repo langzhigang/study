@@ -39,4 +39,9 @@
 		LEFT JOIN blog bl ON au.authorid=bl.authorid
     </select>
     
+    <select id="findAllPage" resultType="com.lzg.entity.Author">
+    	SELECT authorid,authorname FROM author 
+    	ORDER BY authorid
+    	LIMIT ${currPageNo-1},${pageSize} 
+    </select>
 </mapper>
