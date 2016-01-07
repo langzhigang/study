@@ -4,6 +4,9 @@
   "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <!-- 项目 右键 》run as 》 maven bulid 》弹出对话框  在goals中输入mybatis-generator:generate 》 点击 Run -->  
 <generatorConfiguration>
+	<!-- 引入配置文件 -->  
+   	<properties resource="./configs/jdbc.properties"/>
+   	
 	<!-- 数据库驱动,用maven 插件不需要外部的引入-->
 	<!-- <classPathEntry	location="E:\project\vmanagerStore\src\main\resources\tools\mysql-connector-java-5.1.29.jar"/> -->
 	<context id="DB2Tables"	targetRuntime="MyBatis3">
@@ -13,10 +16,10 @@
 			<property name="suppressAllComments" value="true"/>
 		</commentGenerator>
 		<!--数据库链接URL，用户名、密码 -->
-		<jdbcConnection driverClass="com.mysql.jdbc.Driver" 
-						connectionURL="jdbc:mysql://120.25.162.108:3306/lzgstudy" 
-						userId="root" 
-						password="">
+		<jdbcConnection driverClass="${jdbc.driverClassName}" 
+						connectionURL="${jdbc.url}" 
+						userId="${jdbc.username}" 
+						password="${jdbc.password}">
 		</jdbcConnection>
 		
 	   <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer  
