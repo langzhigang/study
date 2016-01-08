@@ -25,11 +25,11 @@ public class MybatisTest1 extends BaseTest {
 	public void testCRUD() {
 		User user = new User();
 		user.setUserName("保存");
-		user.setPassWord("123");
+		user.setPassword("123");
 		userService.saveUser(user);
 		System.out.println("------save 完成 -----------");
-		User u1 = userService.findUserById(user.getUserId());
-		System.out.println("查询保存后的数据：" + u1.toString());
+//		User u1 = userService.findUserById(user.getUserId());
+//		System.out.println("查询保存后的数据：" + u1.toString());
 
 //		u1.setUserName("更新");
 //		userService.updateUser(u1);
@@ -51,7 +51,7 @@ public class MybatisTest1 extends BaseTest {
 		for(int i=0;i<1000;i++){
 			user = new User();
 			user.setUserName("name_" + i);
-			user.setPassWord("123456");
+			user.setPassword("123456");
 			users.add(user);
 		}
 		long start = System.currentTimeMillis();

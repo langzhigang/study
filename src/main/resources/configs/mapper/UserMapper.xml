@@ -11,14 +11,14 @@
     </select>
     
     <insert id="save"  useGeneratedKeys="true" keyProperty="userId">
-        INSERT INTO sys_user (username,password) VALUES (#{userName},#{passWord})
+        INSERT INTO sys_user (username,password) VALUES (#{userName},#{password})
     </insert>
     
     <update id="update">
         UPDATE sys_user
         <trim prefix="set" suffixOverrides=",">
             <if test="userName != null"> username = #{userName},</if>
-            <if test="passWord != null"> password = #{passWord},</if>
+            <if test="password != null"> password = #{password},</if>
         </trim>
         WHERE userid=#{userId}
     </update>
@@ -37,7 +37,7 @@
     	VALUES
     	<trim suffix="" suffixOverrides=",">
     		<foreach collection="users" separator="," item="item">
-				(#{item.userName},#{item.passWord})    	
+				(#{item.userName},#{item.password})    	
     		</foreach>
     	</trim>
     </insert>

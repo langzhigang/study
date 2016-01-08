@@ -23,7 +23,7 @@ public class UserController {
 	IUserService userService;
 
 	@ResponseBody
-	@RequestMapping(value = "login", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public Map<String, Object> login(@RequestBody User user,
 			HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();

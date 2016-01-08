@@ -1,10 +1,18 @@
 package com.lzg.entity;
 
+import java.util.Date;
+
+
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class User {
 	private long userId;
 	private String userName;
-	private String passWord;
-
+	private String password;
+	private int age;
+	@JSONField (format="yyyy-MM-dd HH:mm:ss")   
+	private Date birth;
+	
 	public long getUserId() {
 		return userId;
 	}
@@ -21,16 +29,32 @@ public class User {
 		this.userName = userName;
 	}
 
-	public String getPassWord() {
-		return passWord;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPassWord(String passWord) {
-		this.passWord = passWord;
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public Date getBirth() {
+		return birth;
+	}
+
+	public void setBirth(Date birth) {
+		this.birth = birth;
 	}
 
 	@Override
 	public String toString() {
-		return this.userName + " : " + this.passWord;
+		return this.userName + " : " + this.password;
 	}
 }
