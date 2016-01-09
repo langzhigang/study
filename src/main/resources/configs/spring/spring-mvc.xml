@@ -22,8 +22,6 @@
 	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
 	<context:component-scan base-package="com.lzg.controller" />
 
-	<util:constant id="useISO8601DateFormat" static-field="com.alibaba.fastjson.serializer.SerializerFeature.UseISO8601DateFormat" />
-	
 	<mvc:annotation-driven>  
 		<mvc:message-converters>  
 			<ref bean="stringHttpMessageConverter" />  
@@ -49,12 +47,13 @@
 		        <value>application/json</value>
 		    </list>
 		</property>
-		<property name="features">
+		<!-- <property name="features">
 		    <list>
+		    	<value>UseISO8601DateFormat</value>
 		        <value>WriteMapNullValue</value>
 		        <value>QuoteFieldNames</value>
 		    </list>
-		</property>
+		</property> -->
     </bean>  
 	<!-- 定义跳转的文件的前后缀 ，视图模式配置-->
 <!-- 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

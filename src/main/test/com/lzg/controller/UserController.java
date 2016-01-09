@@ -28,6 +28,7 @@ public class UserController {
 			HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("a", 1);
+		map.put("user", user);
 		return map;
 	}
 }
