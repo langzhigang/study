@@ -10,7 +10,6 @@ public class User {
 	private String userName;
 	private String password;
 	private int age;
-	@JSONField (format="yyyy-MM-dd HH:mm:ss")   
 	private Date birth;
 	
 	public long getUserId() {
