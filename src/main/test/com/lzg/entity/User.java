@@ -3,8 +3,6 @@ package com.lzg.entity;
 import java.util.Date;
 
 
-import com.alibaba.fastjson.annotation.JSONField;
-
 public class User {
 	private long userId;
 	private String userName;

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lzg.dao.IUserDao;
+import com.lzg.dbhelper.DBContextHolder;
 import com.lzg.entity.UUIDUser;
 import com.lzg.entity.User;
 import com.lzg.service.IUserService;
@@ -18,8 +19,8 @@ public class UserService implements IUserService {
 	private IUserDao userDao;
 
 	// 默认是RuntimeException 才会回滚
-	// @Transactional(rollbackFor = { Exception.class })
-	@Transactional(rollbackFor = { Exception.class })
+//	@Transactional(rollbackFor = { Exception.class })
+	@Transactional(readOnly = true)
 	public List<User> findAll() {
 		return userDao.findAll();
 	}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans  
                         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd  
@@ -10,38 +10,72 @@
                         http://www.springframework.org/schema/mvc  
                         http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
                         http://www.springframework.org/schema/tx
-						http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+						http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+						http://www.springframework.org/schema/aop  http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
 	<!-- 引入配置文件 -->
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location" value="classpath:configs/jdbc.properties" />
 	</bean>
 
-	<!-- 配载数据源 -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
+	<!-- 动态数据源配置star********************************************************************************************* -->
+	<!--主数据源   支持读写  -->
+	<bean id="dbSourceRW"  class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${jdbc.driverClassName}" />
 		<property name="url" value="${jdbc.url}" />
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
-		<!-- 初始化连接大小 -->
+		<!--初始化连接大小-->
 		<property name="initialSize" value="${jdbc.initialSize}"></property>
-		<!-- 连接池最大数量 -->
-		<property name="maxActive" value="${jdbc.maxActive}"></property>
-		<!-- 连接池最大空闲 -->
+		<!--连接池最大数量-->
+		<property name="maxTotal" value="${jdbc.maxActive}"></property>
+		<!--连接池最大空闲-->
 		<property name="maxIdle" value="${jdbc.maxIdle}"></property>
-		<!-- 连接池最小空闲 -->
+		<!--连接池最小空闲-->
 		<property name="minIdle" value="${jdbc.minIdle}"></property>
-		<!-- 获取连接最大等待时间 -->
-		<property name="maxWait" value="${jdbc.maxWait}"></property>
+		<!--获取连接最大等待时间-->
+		<property name="maxWaitMillis" value="${jdbc.maxWait}"></property>
 	</bean>
 
-	<!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<!-- 自动扫描mapping.xml文件 -->
+  	<!--附属数据源  只用来读-->
+	<bean id="dbSourceR"  class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url2}" />
+		<property name="username" value="${jdbc.username2}" />
+		<property name="password" value="${jdbc.password2}" />
+		<!--初始化连接大小-->
+		<property name="initialSize" value="${jdbc.initialSize}"></property>
+		<!--连接池最大数量-->
+		<property name="maxTotal" value="${jdbc.maxActive}"></property>
+		<!--连接池最大空闲-->
+		<property name="maxIdle" value="${jdbc.maxIdle}"></property>
+		<!--连接池最小空闲-->
+		<property name="minIdle" value="${jdbc.minIdle}"></property>
+		<!--获取连接最大等待时间-->
+		<property name="maxWaitMillis" value="${jdbc.maxWait}"></property>
+	</bean>
+    
+    <!-- 动态数据源 -->
+    <bean id="dynamicDataSource" class="com.lzg.dbhelper.DynamicDataSource">
+        <!-- 通过key-value关联数据源 -->
+        <property name="targetDataSources">
+            <map>
+                <entry value-ref="dbSourceRW" key="readwritedb"></entry>
+                <entry value-ref="dbSourceR" key="readdb"></entry>
+            </map>
+        </property>
+        <property name="defaultTargetDataSource"  ref="dbSourceRW" />    
+    </bean>
+ 
+    <!--  会话工厂    完美整合 mybatis， 不需要mybatis配置文件-->
+	<bean  name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--  加载mybatis配置文件  已经不需要 mybatis配置文件了-->
+      	<!-- <property name="configLocation"  value="classpath:mybatis.xml"></property>    -->
+        <property name="dataSource"  ref="dynamicDataSource" ></property>
+        <!-- 自动扫描mapping.xml文件  支持通配符 com/zms/hengjinsuo/*/mapping/*.xml -->
 		<property name="mapperLocations" value="classpath*:configs/mapper/*.xml"></property>
 	</bean>
+	<!-- 动态数据源配置end********************************************************************************************* -->
 
 	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
@@ -52,7 +86,35 @@
 	<!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
+		<property name="dataSource" ref="dynamicDataSource" />
 	</bean>
-	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<!-- 注解事物  支持@Transactional -->
+	<tx:annotation-driven transaction-manager="transactionManager" order="2"/>
+   
+    <!-- 支持 @AspectJ 标记  -->
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+	
+	<!-- aop事物star **************************************************************** -->
+	<!-- 配置那些类、方法纳入到事务的管理 -->
+	<!-- <aop:config proxy-target-class="true">
+		<aop:pointcut id="service" expression="execution(* com.lzg..*Service.*(..))" />
+		关键配置，切换数据源一定要比持久层代码更先执行（事务也算持久层代码）
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="service" order="2" />
+	</aop:config> -->
+
+	<!-- 配置事务的传播特性 -->
+	<!-- <tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="count*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="find*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="query*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="has*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="locate*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="list*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="*" propagation="REQUIRED" rollback-for="Exception" />
+		</tx:attributes>
+	</tx:advice>  -->
+	<!-- aop事物end **************************************************************** -->
 </beans>

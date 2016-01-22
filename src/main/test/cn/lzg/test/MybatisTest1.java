@@ -23,11 +23,11 @@ public class MybatisTest1 extends BaseTest {
 	// 测试对user类的 CRUD
 	@Test
 	public void testCRUD() {
-		User user = new User();
-		user.setUserName("保存");
-		user.setPassword("123");
-		userService.saveUser(user);
-		System.out.println("------save 完成 -----------");
+//		User user = new User();
+//		user.setUserName("保存");
+//		user.setPassword("123");
+//		userService.saveUser(user);
+//		System.out.println("------save 完成 -----------");
 //		User u1 = userService.findUserById(user.getUserId());
 //		System.out.println("查询保存后的数据：" + u1.toString());
 
@@ -36,7 +36,7 @@ public class MybatisTest1 extends BaseTest {
 //		User u2 = userService.findUserById(u1.getUserId());
 //		System.out.println("查询更新后的数据：" + u2.toString());
 
-//		List<User> l1 = userService.findAll();
+		List<User> l1 = userService.findAll();
 //		System.out.println("删除数据前查询：" + l1.size());
 //		userService.deleteUser(u2);
 //		List<User> list = userService.findAll();
