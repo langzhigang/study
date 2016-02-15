@@ -40,14 +40,18 @@ public class LoginController {
 	@DisableAuth
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public Map<String,Object> login(@RequestBody UserTest user,HttpServletRequest request,HttpServletResponse response) {
+		Map<String,Object> result = new HashMap<>();
+		
 		String userName = user.getUserName();
 		String password = user.getPassword();
+		
 		log.debug("用户:{}开始登录",userName);
 		
-		Map<String,Object> result = new HashMap<>();
 		if(!"1".equals(password)){
 			log.debug("用户:{}登录失败,原因是用户名或密码错误",userName);
-			throw new RuntimeException("用户名或密码错误");
+			result.put("code",100);
+			result.put("msg", "登录失败");
+			return result;
 		}
 		
 		HttpSession session = request.getSession();
@@ -55,7 +59,7 @@ public class LoginController {
 		long millis = System.currentTimeMillis();
 		session.setAttribute("login-token",loginToken+"-"+millis);
 		
-		
+		result.put("code",200);
 		result.put("msg", "登录成功");
 		log.debug("用户:{}登录成功",user.getUserName());
 		return result;

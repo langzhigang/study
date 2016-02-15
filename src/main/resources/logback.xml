@@ -30,7 +30,8 @@
          <MaxFileSize>10MB</MaxFileSize>  
        </triggeringPolicy>  
     </appender>   
-      
+    
+    <logger name="com.lzg" level="DEBUG"/>  
     <!-- show sql -->
 	<logger name="com.lzg.dao" level="DEBUG"/>  
 		  
