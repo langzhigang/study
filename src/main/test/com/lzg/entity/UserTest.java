@@ -3,7 +3,7 @@ package com.lzg.entity;
 import java.util.Date;
 
 
-public class User {
+public class UserTest {
 	private long userId;
 	private String userName;
 	private String password;

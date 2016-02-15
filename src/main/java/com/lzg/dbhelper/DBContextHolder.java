@@ -1,6 +1,8 @@
 package com.lzg.dbhelper;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * 数据源切换类
@@ -13,7 +15,7 @@ public class DBContextHolder {
 	*/
     private static final ThreadLocal<String> contextHolder = new ThreadLocal<>();
 
-	private static Logger log = Logger.getLogger(DBContextHolder.class);
+    private final static Logger log = LoggerFactory.getLogger(DBContextHolder.class);   
 
 	public static String DB_RW="readwritedb";	//和applicationContenx-dataSource 中动态数据源的配置key对应;
 	public static String DB_R="readdb";
@@ -23,7 +25,7 @@ public class DBContextHolder {
         if (db == null) {
             db = DB_RW;// 默认是读写库
         }
-//        log.debug("动态选定的数据库是:"+db);
+        log.debug("动态选定的数据库是:{}",db);
         return db; 
     }
     
@@ -31,7 +33,7 @@ public class DBContextHolder {
      * 功能说明：设置本次操作的 数据源
      */
     public static void setDbType(String str) {
-//    	log.debug("动态设定的数据库为:"+str);
+    	log.debug("动态设定的数据库为:{}",str);
         contextHolder.set(str);
     }
 

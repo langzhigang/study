@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lzg.dao.IUserDao">
+<mapper namespace="com.lzg.dao.IUserTestDao">
     
     <sql id="user_column">
         userid,username,password
     </sql>
     
-    <select id="findAll" resultType="com.lzg.entity.User">
-        SELECT <include refid="user_column"/> FROM sys_user
+    <sql id="insert_user_column">
+        username,password
+    </sql>
+    
+    <select id="findAll" resultType="com.lzg.entity.UserTest">
+        SELECT <include refid="user_column"/> FROM sys_user_test
     </select>
     
     <insert id="save"  useGeneratedKeys="true" keyProperty="userId">
-        INSERT INTO sys_user (username,password) VALUES (#{userName},#{password})
+        INSERT INTO sys_user_test (<include refid="insert_user_column"/>) VALUES (#{userName},#{password})
     </insert>
     
     <update id="update">
-        UPDATE sys_user
+        UPDATE sys_user_test
         <trim prefix="set" suffixOverrides=",">
             <if test="userName != null"> username = #{userName},</if>
             <if test="password != null"> password = #{password},</if>
@@ -24,16 +28,16 @@
     </update>
     
     <delete id="delete">
-        DELETE FROM sys_user WHERE userid=#{userId}
+        DELETE FROM sys_user_test WHERE userid=#{userId}
     </delete>
     
-    <select id="findUserById" resultType="com.lzg.entity.User">
-        SELECT <include refid="user_column"/> FROM sys_user
+    <select id="findUserById" resultType="com.lzg.entity.UserTest">
+        SELECT <include refid="user_column"/> FROM sys_user_test
 		WHERE userid=#{userId}
     </select>
     
     <insert id="batchSaveUser">
-    	INSERT INTO sys_user (username,password)
+    	INSERT INTO sys_user_test (username,password)
     	VALUES
     	<trim suffix="" suffixOverrides=",">
     		<foreach collection="users" separator="," item="item">

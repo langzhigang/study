@@ -7,8 +7,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.lzg.entity.UUIDUser;
-import com.lzg.entity.User;
-import com.lzg.service.IUserService;
+import com.lzg.entity.UserTest;
+import com.lzg.service.IUserServiceTest;
 
 /**
  * 
@@ -18,17 +18,17 @@ import com.lzg.service.IUserService;
 public class MybatisTest1 extends BaseTest {
 
 	@Autowired
-	private IUserService userService;
+	private IUserServiceTest userService;
 
 	// 测试对user类的 CRUD
 	@Test
 	public void testCRUD() {
-//		User user = new User();
-//		user.setUserName("保存");
+		UserTest user = new UserTest();
+		user.setUserName("保存xx");
 //		user.setPassword("123");
-//		userService.saveUser(user);
-//		System.out.println("------save 完成 -----------");
-//		User u1 = userService.findUserById(user.getUserId());
+		userService.saveUser(user);
+		System.out.println("------save 完成 -----------");
+		//User u1 = userService.findUserById(user.getUserId());
 //		System.out.println("查询保存后的数据：" + u1.toString());
 
 //		u1.setUserName("更新");
@@ -36,7 +36,7 @@ public class MybatisTest1 extends BaseTest {
 //		User u2 = userService.findUserById(u1.getUserId());
 //		System.out.println("查询更新后的数据：" + u2.toString());
 
-		List<User> l1 = userService.findAll();
+//		List<User> l1 = userService.findAll();
 //		System.out.println("删除数据前查询：" + l1.size());
 //		userService.deleteUser(u2);
 //		List<User> list = userService.findAll();
@@ -46,10 +46,10 @@ public class MybatisTest1 extends BaseTest {
 	//测试批量插入
 	@Test
 	public void testBatchInsert(){
-		List<User> users = new ArrayList<User>();
-		User user;
+		List<UserTest> users = new ArrayList<UserTest>();
+		UserTest user;
 		for(int i=0;i<1000;i++){
-			user = new User();
+			user = new UserTest();
 			user.setUserName("name_" + i);
 			user.setPassword("123456");
 			users.add(user);
@@ -65,7 +65,7 @@ public class MybatisTest1 extends BaseTest {
 		//耗时 5200 3273 3588(每次提交20条)		
 		for(int i=0, len=users.size(); i<len; i=i+20){	
 			int end = i+20 < len ? i+20 : len;
-			List<User> temp = users.subList(i, end);
+			List<UserTest> temp = users.subList(i, end);
 			userService.batchSaveUser(temp);
 		}
 		

@@ -4,13 +4,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +23,8 @@ import com.lzg.dbhelper.DBContextHolder;
 //声明这是一个切面Bean
 @Aspect
 public class DetermineDataSourceAspect {
-private final static Log log = LogFactory.getLog(DetermineDataSourceAspect.class);
+	
+	private final static Log log = LogFactory.getLog(DetermineDataSourceAspect.class);
 	
 	//配置切入点,该方法无方法体,主要为方便同类中其他方法使用此处配置的切入点
 	//@Pointcut("execution(* com.lzg.service..*(..))")
@@ -49,14 +45,14 @@ private final static Log log = LogFactory.getLog(DetermineDataSourceAspect.class
 	
 	//配置环绕通知,使用在方法aspect()上注册的切入点
 	@Around(value="execution(* com.lzg.service..*(..)) && @annotation(tra)")
-	public void around(JoinPoint joinPoint,Transactional tra){
+	public Object around(JoinPoint joinPoint,Transactional tra){
 		ProceedingJoinPoint proceedingJoinPoint = (ProceedingJoinPoint) joinPoint;
 		if(tra.readOnly()){
 			DBContextHolder.setDbType(DBContextHolder.DB_R);
 		}
 		log.debug("选择的数据源为：" + DBContextHolder.getDbType());
 		try {
-			proceedingJoinPoint.proceed();
+			return proceedingJoinPoint.proceed();
 		} catch (Throwable e) {
 			throw new RuntimeException();
 		}finally {
