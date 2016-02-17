@@ -11,4 +11,6 @@ public interface IAuthorService {
 	public List<Author> findAllByJoin();
 
 	public List<Author> findAllPage(Map<String, Object> params);
+
+	public int findAllPageCount(Map<String, Object> params);
 }

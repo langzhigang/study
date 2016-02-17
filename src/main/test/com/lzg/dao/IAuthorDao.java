@@ -13,4 +13,6 @@ public interface IAuthorDao {
 
 	List<Author> findAllPage(Map<String, Object> params);
 
+	int findAllPageCount(Map<String, Object> params);
+
 }

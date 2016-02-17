@@ -42,6 +42,10 @@
     <select id="findAllPage" resultType="com.lzg.entity.Author">
     	SELECT authorid,authorname FROM author 
     	ORDER BY authorid
-    	LIMIT ${currPageNo-1},${pageSize} 
+    	LIMIT ${startNo},${endNo} 
+    </select>
+    
+    <select id="findAllPageCount" resultType="int">
+    	SELECT count(1) FROM author 
     </select>
 </mapper>

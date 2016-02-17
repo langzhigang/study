@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.lzg.entity.Author;
+import com.lzg.helper.PageHelper;
 import com.lzg.service.IAuthorService;
 
 /**
@@ -33,10 +34,16 @@ public class MybatisTest2 extends BaseTest {
 	//测试 分页查询
 	@Test
 	public void testPageQuery(){
+		int currentPageNo = 1;
+		int pageSize = 2;
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("currPageNo", 1);
-		params.put("pageSize", 2);
+		PageHelper pageHelper = new PageHelper(currentPageNo,pageSize);
+		params.putAll(pageHelper.toParamsMap());
+		
 		List<Author> list = authorService.findAllPage(params);
-		System.out.println(list.size());
+		int totalPageNo = authorService.findAllPageCount(params);
+		pageHelper.setTotalPageNo(totalPageNo);
+		
+		System.out.println(list.size() + " : "+totalPageNo);
 	}
 }

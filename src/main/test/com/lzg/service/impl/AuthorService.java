@@ -32,4 +32,9 @@ public class AuthorService implements IAuthorService{
 		return authorDao.findAllPage(params);
 	}
 
+	@Override
+	public int findAllPageCount(Map<String, Object> params) {
+		return authorDao.findAllPageCount(params);
+	}
+
 }
