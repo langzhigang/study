@@ -34,7 +34,7 @@ public class LoginController {
 	@DisableAuth
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView loginView() {
-		return new ModelAndView("/login/login");
+		return new ModelAndView("login/login");
 	}
 	
 	@DisableAuth

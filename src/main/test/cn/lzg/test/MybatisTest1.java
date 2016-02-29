@@ -1,6 +1,7 @@
 package cn.lzg.test;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -78,6 +79,7 @@ public class MybatisTest1 extends BaseTest {
 	public void testUUIDInsert(){
 		UUIDUser user = new UUIDUser();
 		user.setUserName("哈哈");
+		user.setBirth(new Date());
 		userService.saveUUIDUser(user);
 		System.out.println(user.getUserId());
 	}

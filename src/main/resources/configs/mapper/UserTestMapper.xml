@@ -50,7 +50,7 @@
     	<selectKey keyProperty="userId" resultType="String" order="BEFORE">
     		SELECT UUID()
     	</selectKey>
-    	INSERT INTO sys_user_uuid (userid,username) VALUES (#{userId},#{userName})
+    	INSERT INTO sys_user_uuid (userid,username,birth) VALUES (#{userId},#{userName},#{birth})
     </insert>
     
 </mapper>

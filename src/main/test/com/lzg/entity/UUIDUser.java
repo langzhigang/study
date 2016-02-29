@@ -1,11 +1,18 @@
 package com.lzg.entity;
 
-import java.util.List;
+import java.util.Date;
 
 public class UUIDUser {
 	private String userId;
 	private String userName;
+	private Date birth;
 	
+	public Date getBirth() {
+		return birth;
+	}
+	public void setBirth(Date birth) {
+		this.birth = birth;
+	}
 	public String getUserId() {
 		return userId;
 	}

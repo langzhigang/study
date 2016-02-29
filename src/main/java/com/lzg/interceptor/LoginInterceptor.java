@@ -39,7 +39,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 		String loginToken = (String) session.getAttribute("login-token");
 		if(StringUtils.isBlank(loginToken)){
 			log.debug("没有loginToken,跳转到登录页面");
-			response.sendRedirect(request.getContextPath()+"/login/login.do");
+			response.sendRedirect(request.getContextPath()+"/login/login");
 			return false;
 		}
 		log.debug("登录验证通过");
