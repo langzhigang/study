@@ -9,7 +9,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Created by xiaohui on 2016/1/14.
+ * swagger配置类
+ * @author lzg
+ * @date 2016年3月1日
  */
 @Configuration
 @EnableSwagger

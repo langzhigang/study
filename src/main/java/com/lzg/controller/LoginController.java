@@ -19,6 +19,7 @@ import com.lzg.annotation.DisableAuth;
 import com.lzg.dbhelper.DBContextHolder;
 import com.lzg.entity.UserTest;
 import com.lzg.util.UUIDUtil;
+import com.wordnik.swagger.annotations.ApiOperation;
 
 /**
  * 
@@ -29,16 +30,18 @@ import com.lzg.util.UUIDUtil;
 @RequestMapping(value = "/login")
 public class LoginController {
 	
-	private final static Logger log = LoggerFactory.getLogger(DBContextHolder.class); 
+	private final static Logger log = LoggerFactory.getLogger(LoginController.class); 
 	
 	@DisableAuth
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@ApiOperation(value="跳转到登录页面")
 	public ModelAndView loginView() {
 		return new ModelAndView("login/login");
 	}
 	
 	@DisableAuth
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@ApiOperation(value="登录逻辑处理")
 	public Map<String,Object> login(@RequestBody UserTest user,HttpServletRequest request,HttpServletResponse response) {
 		Map<String,Object> result = new HashMap<>();
 		
