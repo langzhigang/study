@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lzg.dao.IUserTestDao;
 import com.lzg.entity.UUIDUser;
 import com.lzg.entity.UserTest;
+import com.lzg.service.IAuthorService;
 import com.lzg.service.IUserServiceTest;
 
 @Service("userServiceTest")
@@ -16,6 +17,9 @@ public class UserServiceTest implements IUserServiceTest {
 
 	@Autowired
 	private IUserTestDao userDao;
+
+	@Autowired
+	private IAuthorService authorService;
 
 	// 默认是RuntimeException 才会回滚
 //	@Transactional(rollbackFor = { Exception.class })
@@ -66,6 +70,13 @@ public class UserServiceTest implements IUserServiceTest {
 	public boolean saveUUIDUser(UUIDUser user) {
 		userDao.saveUUIDUser(user);
 		return false;
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public void testNestService(UUIDUser user) {
+		this.saveUUIDUser(user);
+		authorService.findAll();
 	}
 
 }

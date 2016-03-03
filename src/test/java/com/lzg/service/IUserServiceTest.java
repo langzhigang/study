@@ -23,5 +23,7 @@ public interface IUserServiceTest {
 	public boolean batchSaveUser1(List<UserTest> users);
 	
 	public boolean saveUUIDUser(UUIDUser user);
+
+	public void testNestService(UUIDUser user);
 	
 }

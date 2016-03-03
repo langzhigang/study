@@ -1,7 +1,7 @@
 package com.lzg.aop;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -23,8 +23,7 @@ import com.lzg.dbhelper.DBContextHolder;
 //声明这是一个切面Bean
 @Aspect
 public class DetermineDataSourceAspect {
-	
-	private final static Log log = LogFactory.getLog(DetermineDataSourceAspect.class);
+	private final static Logger log = LoggerFactory.getLogger(DetermineDataSourceAspect.class);
 	
 	//配置切入点,该方法无方法体,主要为方便同类中其他方法使用此处配置的切入点
 	//@Pointcut("execution(* com.lzg.service..*(..))")
@@ -47,16 +46,20 @@ public class DetermineDataSourceAspect {
 	@Around(value="execution(* com.lzg.service..*(..)) && @annotation(tra)")
 	public Object around(JoinPoint joinPoint,Transactional tra){
 		ProceedingJoinPoint proceedingJoinPoint = (ProceedingJoinPoint) joinPoint;
+		//根据@Transactional 是否为readOnly来判断是读库还是写库
 		if(tra.readOnly()){
 			DBContextHolder.setDbType(DBContextHolder.DB_R);
+		}else{
+			DBContextHolder.setDbType(DBContextHolder.DB_RW);
 		}
-		log.debug("选择的数据源为：" + DBContextHolder.getDbType());
+		log.debug("around() 选择的数据源为：{}",DBContextHolder.getDbType());
 		try {
 			return proceedingJoinPoint.proceed();
 		} catch (Throwable e) {
 			throw new RuntimeException();
 		}finally {
 			DBContextHolder.clearDBType();
+			log.debug("around() 清理连接类型完毕");
 		}
 	}
 	

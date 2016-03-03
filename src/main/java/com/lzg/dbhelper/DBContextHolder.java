@@ -3,7 +3,6 @@ package com.lzg.dbhelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * 数据源切换类
  * @author lzg
@@ -15,25 +14,30 @@ public class DBContextHolder {
 	*/
     private static final ThreadLocal<String> contextHolder = new ThreadLocal<>();
 
+    private static final ThreadLocal<Boolean> existWrite = new ThreadLocal<>();
+    static{
+    	existWrite.set(false);
+    }
     private final static Logger log = LoggerFactory.getLogger(DBContextHolder.class);   
 
 	public static String DB_RW="readwritedb";	//和applicationContenx-dataSource 中动态数据源的配置key对应;
 	public static String DB_R="readdb";
 	
     public static String getDbType() {
-    	String db = contextHolder.get();
-        if (db == null) {
-            db = DB_RW;// 默认是读写库
-        }
-        log.debug("动态选定的数据库是:{}",db);
-        return db; 
+        return contextHolder.get(); 
     }
     
     /**
      * 功能说明：设置本次操作的 数据源
      */
     public static void setDbType(String str) {
-    	log.debug("动态设定的数据库为:{}",str);
+    	if(existWrite.get()){	//如果先存在写操作，后面的读操作也用RW库
+    		log.debug("之前存在写操作，强制使用RW库");
+    		return;
+    	}
+    	if(DB_RW.equals(str)){
+    		existWrite.set(true);
+    	}
         contextHolder.set(str);
     }
 
@@ -42,5 +46,6 @@ public class DBContextHolder {
      */
     public static void clearDBType() {
         contextHolder.remove();
+        existWrite.set(false);
     }
 }

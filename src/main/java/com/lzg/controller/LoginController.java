@@ -1,12 +1,9 @@
 package com.lzg.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import com.lzg.annotation.DisableAuth;
+import com.lzg.entity.UserTest;
+import com.lzg.util.UUIDUtil;
+import com.wordnik.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.lzg.annotation.DisableAuth;
-import com.lzg.dbhelper.DBContextHolder;
-import com.lzg.entity.UserTest;
-import com.lzg.util.UUIDUtil;
-import com.wordnik.swagger.annotations.ApiOperation;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 

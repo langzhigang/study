@@ -1,5 +1,6 @@
 package cn.lzg.test;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,8 +9,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.lzg.entity.Author;
+import com.lzg.entity.UUIDUser;
 import com.lzg.helper.PageHelper;
 import com.lzg.service.IAuthorService;
+import com.lzg.service.IUserServiceTest;
 
 /**
  * 
@@ -20,6 +23,10 @@ public class MybatisTest2 extends BaseTest {
 
 	@Autowired
 	private IAuthorService authorService;
+	
+
+	@Autowired
+	private IUserServiceTest userService;
 	
 	//测试高级查询，one to many
 	@Test
@@ -45,5 +52,14 @@ public class MybatisTest2 extends BaseTest {
 		pageHelper.setTotalPageNo(totalPageNo);
 		
 		System.out.println(list.size() + " : "+totalPageNo);
+	}
+	
+	//测试嵌套service调用时，动态数据源的选择
+	@Test
+	public void testNestService(){
+		UUIDUser user = new UUIDUser();
+		user.setUserName("哈哈NestService");
+		user.setBirth(new Date());
+		userService.testNestService(user);
 	}
 }
