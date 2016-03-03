@@ -8,3 +8,5 @@ src/main/webapp/files/**/*
 logs/**
 /target/
 
+.idea/misc.xml
+.idea/workspace.xml
