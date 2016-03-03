@@ -62,4 +62,5 @@ public class MybatisTest2 extends BaseTest {
 		user.setBirth(new Date());
 		userService.testNestService(user);
 	}
+
 }
