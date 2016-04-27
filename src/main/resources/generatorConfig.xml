@@ -45,6 +45,6 @@
 		</javaClientGenerator>
 		
 		<!-- 需要生成的表，tableName数据库表名，domainObjectName对应的实体的类名，要生成多张表就复制多行-->
-		<table tableName="testUser" domainObjectName="TestUser" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+		<!-- <table tableName="testUser" domainObjectName="TestUser" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table> -->
 	</context>
 </generatorConfiguration>

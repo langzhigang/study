@@ -21,7 +21,7 @@ import com.lzg.dbhelper.DBContextHolder;
 public class LoginInterceptor extends HandlerInterceptorAdapter{
 	
 	//定义一个全局的记录器，通过LoggerFactory获取  
-    private final static Logger log = LoggerFactory.getLogger(DBContextHolder.class);
+    private final static Logger log = LoggerFactory.getLogger(LoginInterceptor.class);
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
