@@ -53,4 +53,9 @@
     	INSERT INTO sys_user_uuid (userid,username,birth) VALUES (#{userId},#{userName},#{birth})
     </insert>
     
+    
+    <select id="validate" resultType="com.lzg.entity.UserTest">
+        SELECT <include refid="user_column"/> FROM sys_user_test
+		WHERE username=#{userName} AND password = #{password}
+    </select>
 </mapper>

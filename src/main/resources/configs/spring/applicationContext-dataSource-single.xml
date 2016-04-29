@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd  
+                        http://www.springframework.org/schema/context  
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd  
+                        http://www.springframework.org/schema/mvc  
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+                        http://www.springframework.org/schema/tx
+						http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+						http://www.springframework.org/schema/aop  http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+	<!-- 引入配置文件 -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:configs/jdbc.properties" />
+	</bean>
+
+	<bean id="dbSourceRW"  class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<!--初始化连接大小-->
+		<property name="initialSize" value="${jdbc.initialSize}"></property>
+		<!--连接池最大数量-->
+		<property name="maxTotal" value="${jdbc.maxActive}"></property>
+		<!--连接池最大空闲-->
+		<property name="maxIdle" value="${jdbc.maxIdle}"></property>
+		<!--连接池最小空闲-->
+		<property name="minIdle" value="${jdbc.minIdle}"></property>
+		<!--获取连接最大等待时间-->
+		<property name="maxWaitMillis" value="${jdbc.maxWait}"></property>
+	</bean>
+
+    <!--  会话工厂    完美整合 mybatis， 不需要mybatis配置文件-->
+	<bean  name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--  加载mybatis配置文件  已经不需要 mybatis配置文件了-->
+      	<!-- <property name="configLocation"  value="classpath:mybatis.xml"></property>    -->
+        <property name="dataSource"  ref="dbSourceRW" ></property>
+        <!-- 自动扫描mapping.xml文件  支持通配符 com/zms/hengjinsuo/*/mapping/*.xml -->
+		<property name="mapperLocations" value="classpath*:configs/mapper/*.xml"></property>
+	</bean>
+	<!-- 动态数据源配置end********************************************************************************************* -->
+
+	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.lzg.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+	</bean>
+
+	<!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dbSourceRW" />
+	</bean>
+	
+	<!-- 注解事物  支持@Transactional -->
+	<tx:annotation-driven transaction-manager="transactionManager" order="2"/>
+   
+    <!-- 支持 @AspectJ 标记  -->
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+	
+</beans>

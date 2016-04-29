@@ -18,9 +18,11 @@ public interface IUserTestDao {
 
 	public UserTest findUserById(long userId);
 
-	//返回插入的条数
+	// 返回插入的条数
 	public int batchSaveUser(@Param("users") List<UserTest> users);
 
 	public void saveUUIDUser(UUIDUser user);
-	
+
+	public UserTest validate(@Param("userName") String userName, @Param("password") String password);
+
 }

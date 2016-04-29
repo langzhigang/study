@@ -22,7 +22,7 @@ public class UserServiceTest implements IUserServiceTest {
 	private IAuthorService authorService;
 
 	// 默认是RuntimeException 才会回滚
-//	@Transactional(rollbackFor = { Exception.class })
+	// @Transactional(rollbackFor = { Exception.class })
 	@Transactional(readOnly = true)
 	public List<UserTest> findAll() {
 		return userDao.findAll();
@@ -51,16 +51,16 @@ public class UserServiceTest implements IUserServiceTest {
 		userDao.update(user);
 		return true;
 	}
-	
+
 	@Transactional(rollbackFor = { Exception.class })
-	public boolean batchSaveUser(List<UserTest> users){
+	public boolean batchSaveUser(List<UserTest> users) {
 		userDao.batchSaveUser(users);
 		return true;
 	}
 
 	@Transactional(rollbackFor = { Exception.class })
 	public boolean batchSaveUser1(List<UserTest> users) {
-		for(int i=0, len=users.size(); i<len; i++){
+		for (int i = 0, len = users.size(); i < len; i++) {
 			userDao.save(users.get(i));
 		}
 		return false;
@@ -77,6 +77,12 @@ public class UserServiceTest implements IUserServiceTest {
 	public void testNestService(UUIDUser user) {
 		this.saveUUIDUser(user);
 		authorService.findAll();
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public UserTest validate(String userName, String password) {
+		return userDao.validate(userName, password);
 	}
 
 }
