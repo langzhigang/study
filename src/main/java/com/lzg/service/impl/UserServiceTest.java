@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lzg.dao.IUserTestDao;
+import com.lzg.entity.TestUser;
 import com.lzg.entity.UUIDUser;
 import com.lzg.entity.UserTest;
+import com.lzg.result.dto.TestPage;
 import com.lzg.service.IAuthorService;
 import com.lzg.service.IUserServiceTest;
 
@@ -83,6 +85,11 @@ public class UserServiceTest implements IUserServiceTest {
 	@Transactional(rollbackFor = { Exception.class })
 	public UserTest validate(String userName, String password) {
 		return userDao.validate(userName, password);
+	}
+
+	@Override
+	public List<TestUser> findUserPage(TestPage testPage) {
+		return userDao.findUserPage(testPage);
 	}
 
 }

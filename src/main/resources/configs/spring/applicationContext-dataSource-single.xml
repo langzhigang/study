@@ -35,11 +35,10 @@
 		<property name="maxWaitMillis" value="${jdbc.maxWait}"></property>
 	</bean>
 
-    <!--  会话工厂    完美整合 mybatis， 不需要mybatis配置文件-->
 	<bean  name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <!--  加载mybatis配置文件  已经不需要 mybatis配置文件了-->
-      	<!-- <property name="configLocation"  value="classpath:mybatis.xml"></property>    -->
         <property name="dataSource"  ref="dbSourceRW" ></property>
+		<!-- 引入mybatis配置文件 -->
+		<property name="configLocation" value="classpath:configs/spring/mybatis-config.xml"></property>
         <!-- 自动扫描mapping.xml文件  支持通配符 com/zms/hengjinsuo/*/mapping/*.xml -->
 		<property name="mapperLocations" value="classpath*:configs/mapper/*.xml"></property>
 	</bean>

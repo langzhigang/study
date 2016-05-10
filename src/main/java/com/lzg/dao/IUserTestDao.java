@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.lzg.entity.TestUser;
 import com.lzg.entity.UUIDUser;
 import com.lzg.entity.UserTest;
+import com.lzg.result.dto.TestPage;
 
 public interface IUserTestDao {
 	public List<UserTest> findAll();
@@ -24,5 +26,7 @@ public interface IUserTestDao {
 	public void saveUUIDUser(UUIDUser user);
 
 	public UserTest validate(@Param("userName") String userName, @Param("password") String password);
+
+	public List<TestUser> findUserPage(TestPage testPage);
 
 }

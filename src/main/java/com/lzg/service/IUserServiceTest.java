@@ -2,8 +2,10 @@ package com.lzg.service;
 
 import java.util.List;
 
+import com.lzg.entity.TestUser;
 import com.lzg.entity.UUIDUser;
 import com.lzg.entity.UserTest;
+import com.lzg.result.dto.TestPage;
 
 public interface IUserServiceTest {
 	public List<UserTest> findAll();
@@ -27,5 +29,7 @@ public interface IUserServiceTest {
 	public void testNestService(UUIDUser user);
 
 	public UserTest validate(String userName, String password);
+
+	public List<TestUser> findUserPage(TestPage testPage);
 
 }

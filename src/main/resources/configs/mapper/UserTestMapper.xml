@@ -58,4 +58,9 @@
         SELECT <include refid="user_column"/> FROM sys_user_test
 		WHERE username=#{userName} AND password = #{password}
     </select>
+    
+    <select id="findUserPage" resultType="com.lzg.entity.UserTest">
+    	select id as userId,user_name as userName,password from testuser
+    	where 1=1
+    </select>
 </mapper>
