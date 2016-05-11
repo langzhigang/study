@@ -186,6 +186,9 @@ public class PageInterceptor implements Interceptor {
 			page.setTotalCount(totalCount);
 			int totalPage = totalCount / page.getPageSize() + ((totalCount % page.getPageSize() == 0) ? 0 : 1);
 			page.setTotalPage(totalPage);
+			int currentPage = page.getCurrentPage();
+			page.setPrePage(currentPage - 1);
+			page.setNextPage(currentPage + 1);
 
 		} catch (SQLException e) {
 			logger.error("Ignore this exception", e);
