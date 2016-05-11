@@ -26,8 +26,13 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.debug("进入LoginInterceptor方法");
-
-		HandlerMethod method = (HandlerMethod) handler;
+		HandlerMethod method = null;
+		try {
+			method = (HandlerMethod) handler;
+		} catch (Exception e) {
+			log.debug("静态资源请求");
+			return true;
+		}
 		// 判断是否鉴权
 		DisableAuth auth = method.getMethod().getAnnotation(DisableAuth.class);
 		if (auth != null) { // 有DisableAuth注解，说明不用判断是否登录
