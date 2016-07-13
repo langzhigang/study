@@ -1,6 +1,7 @@
 package com.lzg.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.lzg.entity.TestUser;
 import com.lzg.entity.UUIDUser;
@@ -31,5 +32,9 @@ public interface IUserServiceTest {
 	public UserTest validate(String userName, String password);
 
 	public List<TestUser> findUserPage(TestPage testPage);
+
+	public List<String> findD();
+
+	public void insertD(List<Map<String, String>> p);
 
 }

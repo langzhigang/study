@@ -1,6 +1,7 @@
 package com.lzg.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -28,5 +29,9 @@ public interface IUserTestDao {
 	public UserTest validate(@Param("userName") String userName, @Param("password") String password);
 
 	public List<TestUser> findUserPage(TestPage testPage);
+
+	public List<String> findD();
+
+	public void insertD(@Param("list") List<Map<String, String>> list);
 
 }

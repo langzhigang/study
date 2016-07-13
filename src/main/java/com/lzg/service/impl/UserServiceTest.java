@@ -1,6 +1,7 @@
 package com.lzg.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -90,6 +91,16 @@ public class UserServiceTest implements IUserServiceTest {
 	@Override
 	public List<TestUser> findUserPage(TestPage testPage) {
 		return userDao.findUserPage(testPage);
+	}
+
+	@Override
+	public List<String> findD() {
+		return userDao.findD();
+	}
+
+	@Override
+	public void insertD(List<Map<String, String>> p) {
+		userDao.insertD(p);
 	}
 
 }

@@ -67,4 +67,13 @@
         <session-timeout>30</session-timeout>
     </session-config>
 	
+	<!-- 验证码  -->
+	<servlet>  
+	    <servlet-name>Kaptcha</servlet-name>  
+	    <servlet-class>com.google.code.kaptcha.servlet.KaptchaServlet</servlet-class>  
+	</servlet>  
+	<servlet-mapping>  
+	    <servlet-name>Kaptcha</servlet-name>  
+	    <url-pattern>/kaptcha.jpg</url-pattern>  
+	</servlet-mapping> 
 </web-app>

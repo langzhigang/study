@@ -20,6 +20,14 @@
 	      </div>
 	   </div>
 	   <div class="form-group">
+	  		<label for="valiCode" class="col-sm-2 control-label">验证码：</label>
+	  		<div class="col-sm-3">
+	  			<input type="text" id="valiCode" name="valiCode" value="" />
+	       		<img src="kaptcha.jpg" width="200" id="kaptchaImage" title="看不清，点击换一张" />  
+				<br /><small>看不清，点击换一张</small>  
+	      	</div>
+	   </div>
+	   <div class="form-group">
 	      <div class="col-sm-offset-2 col-sm-10">
 	         <div class="checkbox">
 	            <label>
@@ -30,7 +38,7 @@
 	   </div>
 	   <div class="form-group">
 	      <div class="col-sm-offset-2 col-sm-10">
-	         <button type="button" onclick="login()" class="btn btn-success">登录</button>
+	         <button type="button" onclick="getData()" class="btn btn-success">登录</button>
 	      </div>
 	   </div>
 	</form>
@@ -38,7 +46,7 @@
 	<script src="http://localhost:8080/study/js/third/bootstrap-3.3.5/dist/js/bootstrap.js"></script>
 	<script type="text/javascript">
 		function login(){
-			var param = {"userName":$("#userName").val(),"password":$("#password").val()};
+			var param = {"userName":$("#userName").val(),"password":$("#password").val(),"valiCode":$("#valiCode").val()};
 			$.ajax({
 				url:'http://localhost:8080/study/login/login.do',
 			    type : 'POST',  
@@ -57,6 +65,24 @@
 				}
 			});
 		}
-	</script>
+		
+		function getData(){
+			var url = "http://www.stats.gov.cn/tjsj/tjbz/xzqhdm/201504/t20150415_712722.html";
+			//"http://localhost:8080/study/a.html"
+			$.ajax({
+				 url: url, 
+				 contentType:"text/html",
+				 type: "GET",
+				 data: {}, 
+				 success: function(result){ 
+					 console.log(result);
+				 }
+			});
+		}
+		
+	    $(function() {  
+	        $('#kaptchaImage').click(function() {$(this).attr('src','kaptcha.jpg?' + Math.floor(Math.random() * 100));});  
+	    });  
+	</script>  
 </body>
 </html>

@@ -15,9 +15,9 @@ import com.wordnik.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
-	
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	@ApiOperation(value="获取用户列表")
+	@ApiOperation(value = "获取用户列表")
 	public ModelAndView getUserList() {
 		return new ModelAndView("/user/user-list");
 	}

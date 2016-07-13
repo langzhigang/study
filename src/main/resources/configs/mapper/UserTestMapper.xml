@@ -63,4 +63,16 @@
     	select id as userId,user_name as userName,password from testuser
     	where 1=1
     </select>
+    
+    <select id="findD" resultType="String">
+		SELECT `code` FROM `aaa_temp`
+    </select>
+    
+    <insert id="insertD">
+    	insert into `wgj_service`.`aaa_temp` (code,city_type,name)
+    	values
+    	<foreach collection="list" separator="," item="item">
+    		(#{item.code},#{item.cityType},#{item.name})
+    	</foreach>
+    </insert>
 </mapper>

@@ -2,6 +2,7 @@ package com.lzg.aop;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,7 @@ public class DetermineDataSourceAspect {
 	// }
 
 	// 配置环绕通知,使用在方法aspect()上注册的切入点
-	// @Around(value="execution(* com.lzg.service..*(..)) && @annotation(tra)")
+	@Around(value = "execution(* com.lzg.service..*(..)) && @annotation(tra)")
 	public Object around(JoinPoint joinPoint, Transactional tra) {
 		ProceedingJoinPoint proceedingJoinPoint = (ProceedingJoinPoint) joinPoint;
 		// 根据@Transactional 是否为readOnly来判断是读库还是写库

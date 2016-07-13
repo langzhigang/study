@@ -14,4 +14,20 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.context.annotation.Configuration"/>
 	</context:component-scan>
 
+	<!-- 配置kaptcha验证码 -->  
+	<bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">  
+	    <property name="config">  
+	        <bean class="com.google.code.kaptcha.util.Config">  
+	            <constructor-arg type="java.util.Properties">  
+	                <props>  
+	                    <prop key="kaptcha.image.width">100</prop>  
+	                    <prop key="kaptcha.image.height">50</prop>  
+	                    <prop key="kaptcha.noise.impl">com.google.code.kaptcha.impl.NoNoise</prop>  
+	                    <prop key="kaptcha.textproducer.char.string">0123456789abcdefghijklmnopqrstuvwxyz</prop>  
+	                    <prop key="kaptcha.textproducer.char.length">4</prop>  
+	                </props>  
+	            </constructor-arg>  
+	        </bean>  
+	    </property>  
+	</bean> 
 </beans>

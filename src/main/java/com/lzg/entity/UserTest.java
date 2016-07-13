@@ -2,14 +2,22 @@ package com.lzg.entity;
 
 import java.util.Date;
 
-
 public class UserTest {
 	private long userId;
 	private String userName;
 	private String password;
 	private int age;
 	private Date birth;
-	
+	private String valiCode;
+
+	public String getValiCode() {
+		return valiCode;
+	}
+
+	public void setValiCode(String valiCode) {
+		this.valiCode = valiCode;
+	}
+
 	public long getUserId() {
 		return userId;
 	}

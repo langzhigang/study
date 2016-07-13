@@ -1,5 +1,6 @@
 package cn.lzg.test;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -83,4 +84,32 @@ public class MybatisTest2 extends BaseTest {
 		System.out.println(users);
 	}
 
+	@Test
+	public void testDDDD() {
+		List<String> a = userService.findD();
+		System.out.println(a.size());
+
+		List<Map<String, String>> p = new ArrayList<>();
+		Map<String, String> r = null;
+
+		for (int i = 0, len = a.size(); i < len;) {
+			int start = i;
+			int end = i + 100;
+			if (end > len) {
+				end = len;
+			}
+			List<String> subList = a.subList(start, end);
+			for (String s : subList) {
+				r = new HashMap<>();
+				String[] arr = s.split(",");
+				r.put("code", arr[0] == null ? arr[0] : arr[0].trim());
+				r.put("cityType", arr[1] == null ? arr[1] : arr[1].trim());
+				r.put("name", arr[2] == null ? arr[2] : arr[2].trim());
+				p.add(r);
+			}
+			userService.insertD(p);
+			p.clear();
+			i = end++;
+		}
+	}
 }
