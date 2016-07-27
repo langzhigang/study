@@ -1,82 +1,83 @@
 package com.lzg.interceptor;
 
 /**
- * Created by  Tiejun Sun on 2016-04-21.
- *  分页参数类
- * @author  Tiejun Sun
+ * 分页参数
+ * 
+ * @author lzg
+ * @date 2016年7月27日
  */
 public class PageParameter {
 
-    public static final int DEFAULT_PAGE_SIZE = 10;
+	public static final int DEFAULT_PAGE_SIZE = 10;
 
-    private int pageSize;
-    private int currentPage;
-    private int prePage;
-    private int nextPage;
-    private int totalPage;
-    private int totalCount;
+	private int pageSize;
+	private int currentPage;
+	private int prePage;
+	private int nextPage;
+	private int totalPage;
+	private int totalCount;
 
-    public PageParameter() {
-        this.currentPage = 1;
-        this.pageSize = DEFAULT_PAGE_SIZE;
-    }
+	public PageParameter() {
+		this.currentPage = 1;
+		this.pageSize = DEFAULT_PAGE_SIZE;
+	}
 
-    /**
-     *
-     * @param currentPage
-     * @param pageSize
-     */
-    public PageParameter(int currentPage, int pageSize) {
-        this.currentPage = currentPage;
-        this.pageSize = pageSize;
-    }
+	/**
+	 *
+	 * @param currentPage
+	 * @param pageSize
+	 */
+	public PageParameter(int currentPage, int pageSize) {
+		this.currentPage = currentPage;
+		this.pageSize = pageSize;
+	}
 
-    public int getCurrentPage() {
-        return currentPage;
-    }
+	public int getCurrentPage() {
+		return currentPage;
+	}
 
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
-    }
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = currentPage;
+	}
 
-    public int getPageSize() {
-        return pageSize;
-    }
+	public int getPageSize() {
+		return pageSize;
+	}
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
 
-    public int getPrePage() {
-        return prePage;
-    }
+	public int getPrePage() {
+		return prePage;
+	}
 
-    public void setPrePage(int prePage) {
-        this.prePage = prePage;
-    }
+	public void setPrePage(int prePage) {
+		this.prePage = prePage;
+	}
 
-    public int getNextPage() {
-        return nextPage;
-    }
+	public int getNextPage() {
+		return nextPage;
+	}
 
-    public void setNextPage(int nextPage) {
-        this.nextPage = nextPage;
-    }
+	public void setNextPage(int nextPage) {
+		this.nextPage = nextPage;
+	}
 
-    public int getTotalPage() {
-        return totalPage;
-    }
+	public int getTotalPage() {
+		return totalPage;
+	}
 
-    public void setTotalPage(int totalPage) {
-        this.totalPage = totalPage;
-    }
+	public void setTotalPage(int totalPage) {
+		this.totalPage = totalPage;
+	}
 
-    public int getTotalCount() {
-        return totalCount;
-    }
+	public int getTotalCount() {
+		return totalCount;
+	}
 
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
-    }
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
+	}
 
 }

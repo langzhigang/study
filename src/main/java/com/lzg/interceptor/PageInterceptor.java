@@ -28,10 +28,10 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.RowBounds;
 
 /**
- * Created by Tiejun Sun on 2016-04-21. 通过拦截<code>StatementHandler</code>的
- * <code>prepare</code>方法，重写sql语句实现物理分页。
- *
- * @author Tiejun Sun
+ * 分页拦截器
+ * 
+ * @author lzg
+ * @date 2016年7月27日
  */
 @Intercepts({ @Signature(type = StatementHandler.class, method = "prepare", args = { Connection.class }) })
 public class PageInterceptor implements Interceptor {
@@ -86,6 +86,10 @@ public class PageInterceptor implements Interceptor {
 
 				String pageSql = "";
 
+				Connection connection = (Connection) invocation.getArgs()[0];
+				// 重设分页参数里的总页数等
+				setPageParameter(sql, connection, mappedStatement, boundSql, page);
+
 				// 处理排序字段
 				String orderBy = (String) metaStatementHandler.getValue("delegate.boundSql.parameterObject.orderBy");
 				if (orderBy == null || "".equals(orderBy.trim())) {// 无排序字段的情况
@@ -101,9 +105,7 @@ public class PageInterceptor implements Interceptor {
 				// 采用物理分页后，就不需要mybatis的内存分页了，所以重置下面的两个参数
 				metaStatementHandler.setValue("delegate.rowBounds.offset", RowBounds.NO_ROW_OFFSET);
 				metaStatementHandler.setValue("delegate.rowBounds.limit", RowBounds.NO_ROW_LIMIT);
-				Connection connection = (Connection) invocation.getArgs()[0];
-				// 重设分页参数里的总页数等
-				setPageParameter(sql, connection, mappedStatement, boundSql, page);
+
 			}
 		}
 		// 将执行权交给下一个拦截器
@@ -118,11 +120,14 @@ public class PageInterceptor implements Interceptor {
 	 */
 	private String getOrderBy(String orderBy) {
 		// orderBy已经判空过了，这里不用判空了
+
 		String[] arr = orderBy.split(",");
 		StringBuilder sb = new StringBuilder();
 		sb.append(" order by ");
 		for (String orderByStr : arr) {
-			orderByStr = toUnderLine(orderByStr);
+			if (!"sqlserver".equals(dialect)) {
+				orderByStr = toUnderLine(orderByStr);
+			}
 			if (orderByStr.startsWith("-")) {
 				orderByStr = orderByStr.substring(1) + " desc, ";
 			} else {
@@ -175,9 +180,12 @@ public class PageInterceptor implements Interceptor {
 		ResultSet rs = null;
 		try {
 			countStmt = connection.prepareStatement(countSql);
-			BoundSql countBS = new BoundSql(mappedStatement.getConfiguration(), countSql,
-					boundSql.getParameterMappings(), boundSql.getParameterObject());
-			setParameters(countStmt, mappedStatement, countBS, boundSql.getParameterObject());
+			// ---- 下面的代码是为了修复 bean中有list的时候参数出问题的情况，跟踪源码后发现是这里出的问题。所以注释掉。
+			// BoundSql countBS = new
+			// BoundSql(mappedStatement.getConfiguration(), countSql,
+			// boundSql.getParameterMappings(), boundSql.getParameterObject());
+
+			setParameters(countStmt, mappedStatement, boundSql, boundSql.getParameterObject());
 			rs = countStmt.executeQuery();
 			int totalCount = 0;
 			if (rs.next()) {
@@ -189,17 +197,24 @@ public class PageInterceptor implements Interceptor {
 			int currentPage = page.getCurrentPage();
 			page.setPrePage(currentPage - 1);
 			page.setNextPage(currentPage + 1);
+			if (page.getPageSize() == -1) { // 如果为-1，就查询所有。
+				page.setPageSize(totalCount);
+			}
 
 		} catch (SQLException e) {
 			logger.error("Ignore this exception", e);
 		} finally {
 			try {
-				rs.close();
+				if (rs != null) {
+					rs.close();
+				}
 			} catch (SQLException e) {
 				logger.error("Ignore this exception", e);
 			}
 			try {
-				countStmt.close();
+				if (countStmt != null) {
+					countStmt.close();
+				}
 			} catch (SQLException e) {
 				logger.error("Ignore this exception", e);
 			}
@@ -236,6 +251,8 @@ public class PageInterceptor implements Interceptor {
 				pageSql = buildPageSqlForMysql(sql, page);
 			} else if ("oracle".equals(dialect)) {
 				pageSql = buildPageSqlForOracle(sql, page);
+			} else if ("sqlserver".equals(dialect)) {
+				pageSql = buildPageSqlForSqlserver(sql, page);
 			} else {
 				return sql;
 			}
@@ -259,6 +276,8 @@ public class PageInterceptor implements Interceptor {
 				pageSql = buildPageSqlForMysql(sql, page, orderBy);
 			} else if ("oracle".equals(dialect)) {
 				pageSql = buildPageSqlForOracle(sql, page, orderBy);
+			} else if ("sqlserver".equals(dialect)) {
+				pageSql = buildPageSqlForSqlserver(sql, page, orderBy);
 			} else {
 				return sql;
 			}
@@ -266,6 +285,40 @@ public class PageInterceptor implements Interceptor {
 		} else {
 			return sql;
 		}
+	}
+
+	/**
+	 * sqlserver的分页语句
+	 *
+	 * @param sql
+	 * @param page
+	 * @return String
+	 */
+	private StringBuilder buildPageSqlForSqlserver(String sql, PageParameter page) {
+		StringBuilder pageSql = new StringBuilder(100);
+		String beginrow = String.valueOf((page.getCurrentPage() - 1) * page.getPageSize());
+
+		pageSql.append(sql);
+		pageSql.append("order by 1");
+		pageSql.append(" offset " + beginrow + " rows fetch next " + page.getPageSize() + " rows only ");
+		return pageSql;
+	}
+
+	/**
+	 * sqlserver的分页语句
+	 *
+	 * @param sql
+	 * @param page
+	 * @return String
+	 */
+	private StringBuilder buildPageSqlForSqlserver(String sql, PageParameter page, String orderBy) {
+		StringBuilder pageSql = new StringBuilder(100);
+		String beginrow = String.valueOf((page.getCurrentPage() - 1) * page.getPageSize());
+
+		pageSql.append(sql);
+		pageSql.append(orderBy);
+		pageSql.append(" offset " + beginrow + " rows fetch next " + page.getPageSize() + " rows only ");
+		return pageSql;
 	}
 
 	/**
@@ -314,7 +367,7 @@ public class PageInterceptor implements Interceptor {
 		pageSql.append("select * from ( select temp.*, rownum row_id from ( ");
 		pageSql.append(sql);
 		pageSql.append(" ) temp where rownum <= ").append(endrow);
-		pageSql.append(") where row_id > ").append(beginrow);
+		pageSql.append(" ) where row_id > ").append(beginrow);
 		return pageSql;
 	}
 
@@ -349,5 +402,4 @@ public class PageInterceptor implements Interceptor {
 
 	public void setProperties(Properties properties) {
 	}
-
 }
