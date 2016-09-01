@@ -1,25 +1,5 @@
 package com.lzg.controller;
 
-import java.awt.image.BufferedImage;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.imageio.ImageIO;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import com.lzg.annotation.DisableAuth;
@@ -28,6 +8,21 @@ import com.lzg.service.ITestService;
 import com.lzg.service.IUserServiceTest;
 import com.lzg.util.UUIDUtil;
 import com.wordnik.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
@@ -53,13 +48,16 @@ public class LoginController {
 	@Autowired
 	ITestService testService;
 
+	@Value("${testValue}")
+	private String testValue;
+
 	@DisableAuth
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ApiOperation(value = "登录逻辑处理")
 	public Map<String, Object> login(@RequestBody UserTest user, HttpServletRequest request,
 			HttpServletResponse response) {
-		testService.a();
-
+		//testService.a();
+		log.info(testValue);
 		// 用户输入的验证码的值
 		String kaptchaExpected = (String) request.getSession()
 				.getAttribute(com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);

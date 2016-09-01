@@ -20,6 +20,8 @@
 		<mysql.connector.version>5.1.6</mysql.connector.version>
 		<!-- jackson版本 -->
 		<jackson.version>2.6.1</jackson.version>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>
@@ -176,6 +178,12 @@
 			<version>1.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.3</version>
+		</dependency>
+
 		<!-- jackson -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -192,13 +200,13 @@
 			<artifactId>jackson-annotations</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.4</version>
 		</dependency>
-		
+
 		<!-- sl4j + logback start-->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -216,7 +224,7 @@
 			<version>${logback.version}</version>
 		</dependency>
 		<!-- sl4j + logback end-->
-		
+
 		<!-- swagger-springmvc -->
 	    <dependency>
 	        <groupId>com.mangofactory</groupId>
@@ -244,21 +252,21 @@
 	        <artifactId>classmate</artifactId>
 	        <version>1.1.0</version>
 	    </dependency>
-	    
+
 	    <dependency>
 			<groupId>com.google.code</groupId>
 			<artifactId>kaptcha</artifactId>
 			<version>2.3.2</version>
 		</dependency>
-		
+
 		<dependency>
 		    <groupId>org.apache.httpcomponents</groupId>
 		    <artifactId>httpclient</artifactId>
 		    <version>4.5.2</version>
 		</dependency>
-		
+
 	</dependencies>
-	
+
 	<repositories>
 		<repository>
 	        <id>public</id>
@@ -307,7 +315,7 @@
 			</snapshots>
 		</repository>
 
-	</repositories> 
+	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
 			<id>central</id>
@@ -322,8 +330,39 @@
 			</releases>
 		</pluginRepository>
 	</pluginRepositories>
-	
+
+	<!-- 定义环境 -->
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<env>dev</env>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<env>test</env>
+			</properties>
+		</profile>
+	</profiles>
+
 	<build>
+		<!-- 要过滤的文件 -->
+		<filters>
+			<filter>src/main/resources/configs/${env}/test.properties</filter>
+		</filters>
+		<resources>
+			<resource>
+				<!-- 需要替换的目录 -->
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
 		<plugins>
 			<!-- package install跳过打包 -->
 			<plugin>   

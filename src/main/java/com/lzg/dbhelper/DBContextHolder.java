@@ -31,7 +31,7 @@ public class DBContextHolder {
      * 功能说明：设置本次操作的 数据源
      */
     public static void setDbType(String str) {
-    	if(existWrite.get()){	//如果先存在写操作，后面的读操作也用RW库
+    	if(existWrite.get()==null || existWrite.get()){	//如果先存在写操作，后面的读操作也用RW库
     		log.debug("之前存在写操作，强制使用RW库");
     		return;
     	}

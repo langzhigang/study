@@ -38,7 +38,7 @@
 	   </div>
 	   <div class="form-group">
 	      <div class="col-sm-offset-2 col-sm-10">
-	         <button type="button" onclick="getData()" class="btn btn-success">登录</button>
+	         <button type="button" onclick="login()" class="btn btn-success">登录</button>
 	      </div>
 	   </div>
 	</form>
@@ -66,21 +66,7 @@
 			});
 		}
 		
-		function getData(){
-			var url = "http://www.stats.gov.cn/tjsj/tjbz/xzqhdm/201504/t20150415_712722.html";
-			//"http://localhost:8080/study/a.html"
-			$.ajax({
-				 url: url, 
-				 contentType:"text/html",
-				 type: "GET",
-				 data: {}, 
-				 success: function(result){ 
-					 console.log(result);
-				 }
-			});
-		}
-		
-	    $(function() {  
+	    $(function() {
 	        $('#kaptchaImage').click(function() {$(this).attr('src','kaptcha.jpg?' + Math.floor(Math.random() * 100));});  
 	    });  
 	</script>  

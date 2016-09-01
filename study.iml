@@ -57,6 +57,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet.jsp:jsp-api:2.1" level="project" />
     <orderEntry type="library" name="Maven: javax.annotation:jsr250-api:1.0" level="project" />
+    <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.6.1" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.6.1" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.6.1" level="project" />
