@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lzg.dao.IAuthorDao">
+<mapper namespace="com.lzg.dao.IAuthorMapper">
     <!-- 集合嵌套选择（Nested Select for Collection） -->
     <resultMap type="com.lzg.entity.Author" id="findAllMap">
     	<id column="authorid" property="authorId"/>
@@ -48,4 +48,8 @@
     <select id="findAllPageCount" resultType="int">
     	SELECT count(1) FROM author 
     </select>
+
+	<select id="findAuthorsPage" resultType="String">
+		SELECT authorname FROM author
+	</select>
 </mapper>

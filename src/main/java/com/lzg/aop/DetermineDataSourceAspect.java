@@ -16,7 +16,7 @@ import com.lzg.dbhelper.DBContextHolder;
  * 动态切换数据源的切面
  * 
  * @author lzg
- * @date 2016年1月22日
+ * @Date 2016年1月22日
  */
 @Order(0)
 // 声明这是一个组件

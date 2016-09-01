@@ -1,11 +1,12 @@
 package com.lzg.dao;
 
+import com.lzg.entity.Author;
+import com.lzg.result.dto.TestPage1;
+
 import java.util.List;
 import java.util.Map;
 
-import com.lzg.entity.Author;
-
-public interface IAuthorDao {
+public interface IAuthorMapper {
 
 	List<Author> findAll();
 
@@ -15,4 +16,5 @@ public interface IAuthorDao {
 
 	int findAllPageCount(Map<String, Object> params);
 
+	List<String> findAuthorsPage(TestPage1 testPage);
 }

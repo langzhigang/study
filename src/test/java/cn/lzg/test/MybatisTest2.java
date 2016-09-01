@@ -1,22 +1,18 @@
 package cn.lzg.test;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.lzg.entity.Author;
 import com.lzg.entity.TestUser;
 import com.lzg.entity.UUIDUser;
 import com.lzg.helper.PageHelper;
 import com.lzg.interceptor.PageParameter;
 import com.lzg.result.dto.TestPage;
+import com.lzg.result.dto.TestPage1;
 import com.lzg.service.IAuthorService;
 import com.lzg.service.IUserServiceTest;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.*;
 
 /**
  * 
@@ -82,6 +78,15 @@ public class MybatisTest2 extends BaseTest {
 
 		List<TestUser> users = userService.findUserPage(testPage);
 		System.out.println(users);
+
+		TestPage1 testPage1 = new TestPage1();
+		PageParameter pageParameter1 = new PageParameter();
+		pageParameter1.setCurrentPage(1);
+		pageParameter1.setPageSize(3);
+		testPage1.setPage(pageParameter1);
+		testPage1.setOrderBy(null);
+		List<String> authorNames = authorService.findAuthorsPage(testPage1);
+		System.out.println(authorNames);
 	}
 
 	@Test
