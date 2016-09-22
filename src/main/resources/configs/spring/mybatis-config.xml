@@ -5,7 +5,10 @@
 		<property name="dialect" value="mysql" />
 		<property name="pageSqlId" value=".*Page$" />
     </properties>
-
+    <!-- 数据库列名 user_id 到经典 Java 属性名 userId 的类似映射 -->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
     <plugins>
         <plugin interceptor="com.lzg.interceptor.PageInterceptor"></plugin>
     </plugins>
