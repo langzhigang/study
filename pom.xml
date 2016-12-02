@@ -351,6 +351,7 @@
 	</profiles>
 
 	<build>
+		<finalName>study</finalName>
 		<!-- 要过滤的文件 -->
 		<filters>
 			<filter>src/main/resources/configs/${env}/test.properties</filter>
